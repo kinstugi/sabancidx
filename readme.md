@@ -1,4 +1,4 @@
-# .NET REST API Project
+# Case Study: Product Service
 
 This is a .NET RESTful API project for managing products and users. It provides endpoints for creating, retrieving, updating, and deleting products, as well as user-related functionality.
 
@@ -27,8 +27,8 @@ Before running this project, ensure you have the following prerequisites install
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/yourusername/your-api-project.git
-   cd your-api-project
+   git clone https://github.com/kinstugi/sabancidx.git
+   cd sabancidx
    ```
 2. Add migrations and push changes to database (in this case we are using sqlite database)
     ```
