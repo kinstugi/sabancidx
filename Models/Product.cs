@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace backend.Models;
 
 public enum Currency{
@@ -16,11 +18,23 @@ public class Product{
     public string Description { get; set; } = string.Empty;
     public Currency Currency { get; set; } = Currency.TRY;
     public int StockCount { get; set; }
+    [JsonIgnore]
     public bool IsVisible { get; set; } = true; // set this to false when a product is deleted
 
-    public bool DeleteProduct(User user){
-        if (user.UserId != UserId) return false;
+    public bool DeleteProduct(int userId){
+        if (userId != UserId) return false;
         IsVisible = false;
         return true;
     }
+}
+
+// productDTO
+public class ProductDTO{
+    public string Name { get; set; } = string.Empty;
+    public double Price { get; set; }
+    public string Code { get; set; } = string.Empty;
+    public string Brand { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public Currency Currency { get; set; } = Currency.TRY;
+    public int StockCount { get; set; }
 }

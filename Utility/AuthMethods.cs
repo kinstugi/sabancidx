@@ -33,7 +33,7 @@ public class AuthMethods{
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
         var tokens = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: DateTime.Now.AddDays(2),
             signingCredentials: creds
         );
         return new JwtSecurityTokenHandler().WriteToken(tokens);
