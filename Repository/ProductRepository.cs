@@ -12,10 +12,10 @@ public class ProductRepository{
         dbContext = appDbContext;
     }
 
-    public async Task<List<Product>> GetAllProducts(User? user, int pageNumber = 1, int itemPerPage = 20){
-        if (user != null){
+    public async Task<List<Product>> GetAllProducts(int userId = -1, int pageNumber = 1, int itemPerPage = 20){
+        if (userId != -1){
             return await dbContext.Products
-                .Where(product => product.UserId == user.UserId && product.IsVisible)
+                .Where(product => product.UserId == userId && product.IsVisible)
                 .Skip((pageNumber-1)*itemPerPage)
                 .Take(itemPerPage)
                 .ToListAsync();

@@ -20,8 +20,25 @@ public class ProductsController: ControllerBase{
 
     [HttpGet]
     public async Task<List<Product>> FetchAllProducts(){
-        var page = Request.Query["page"];
-        return await _productRepo.GetAllProducts(null);
+        string? pageStr = Request.Query["page"];
+        int page = 1;
+        if (!(pageStr == "" || pageStr == null)){
+            bool res = int.TryParse(pageStr, out page);
+            if (!res) page = 1;
+        }
+        return await _productRepo.GetAllProducts(-1, page);
+    }
+
+    [HttpGet("me")]
+    public async Task<List<Product>> FetchAllMyProducts(){
+        var userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.PrimarySid)!.Value);
+        string? pageStr = Request.Query["page"];
+        int page = 1;
+        if (!(pageStr == "" || pageStr == null)){
+            bool res = int.TryParse(pageStr, out page);
+            if (!res) page = 1;
+        }
+        return await _productRepo.GetAllProducts(userId, page);
     }
 
     [HttpGet("{id}", Name = "GetProduct")]
