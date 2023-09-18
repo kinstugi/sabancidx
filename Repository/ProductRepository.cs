@@ -76,4 +76,28 @@ public class ProductRepository{
         await dbContext.SaveChangesAsync();
         return res;
     }
+
+    public async Task<List<Product>> FilterProducts(
+        string name = "",
+        string code = "",
+        string brand = "",
+        double minPrice = double.NegativeInfinity,
+        double maxPrice = double.PositiveInfinity,
+        int page = 1,
+        int pageSize = 10 
+    ){
+        var productQuery = dbContext.Products.Where(pd => minPrice <= pd.Price && pd.Price <= maxPrice);
+        productQuery = productQuery.Where(pd => pd.IsVisible);
+        if (!string.IsNullOrEmpty(name))
+            productQuery = productQuery.Where(pd => pd.Name == name);
+        if (!string.IsNullOrEmpty(code))
+            productQuery = productQuery.Where(pd=> pd.Code == code);
+        if (!string.IsNullOrEmpty(brand))
+            productQuery = productQuery.Where(pd => pd.Brand == brand);
+        
+        return await productQuery
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
 }

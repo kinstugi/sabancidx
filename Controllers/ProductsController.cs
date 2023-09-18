@@ -19,26 +19,14 @@ public class ProductsController: ControllerBase{
     }
 
     [HttpGet]
-    public async Task<List<Product>> FetchAllProducts(){
-        string? pageStr = Request.Query["page"];
-        int page = 1;
-        if (!(pageStr == "" || pageStr == null)){
-            bool res = int.TryParse(pageStr, out page);
-            if (!res) page = 1;
-        }
-        return await _productRepo.GetAllProducts(-1, page);
+    public async Task<List<Product>> FetchAllProducts([FromQuery] int page = 1, [FromQuery] int pageSize = 10){
+        return await _productRepo.GetAllProducts(-1, page, pageSize);
     }
 
     [HttpGet("me")]
-    public async Task<List<Product>> FetchAllMyProducts(){
+    public async Task<List<Product>> FetchAllMyProducts([FromQuery] int page=1, [FromQuery] int pageSize = 10){
         var userId = int.Parse(HttpContext.User.FindFirst(ClaimTypes.PrimarySid)!.Value);
-        string? pageStr = Request.Query["page"];
-        int page = 1;
-        if (!(pageStr == "" || pageStr == null)){
-            bool res = int.TryParse(pageStr, out page);
-            if (!res) page = 1;
-        }
-        return await _productRepo.GetAllProducts(userId, page);
+        return await _productRepo.GetAllProducts(userId, page, pageSize);
     }
 
     [HttpGet("{id}", Name = "GetProduct")]
@@ -82,5 +70,18 @@ public class ProductsController: ControllerBase{
         }catch(ProductNotFoundException){
             return NotFound();
         }
+    }
+
+    [HttpGet("search")]
+    public async Task<List<Product>> FilterProducts(
+        [FromQuery] string name = "",
+        [FromQuery] string brand = "",
+        [FromQuery] string code = "",
+        [FromQuery] double minPrice = -1000,
+        [FromQuery] double maxPrice = 10000,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10
+    ){
+        return await _productRepo.FilterProducts(name, code, brand, minPrice, maxPrice, page, pageSize);
     }
 }
