@@ -1,0 +1,5 @@
+bin/
+obj/
+.vscode/
+Migrations/
+db.sqlite3
