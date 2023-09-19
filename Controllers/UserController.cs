@@ -7,10 +7,10 @@ namespace backend.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class UserController: ControllerBase{
-    private readonly UserRepository _userRepo;
+    private readonly IUserRepository _userRepo;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserRepository userRepository, ILogger<UserController> logger){
+    public UserController(IUserRepository userRepository, ILogger<UserController> logger){
         _userRepo = userRepository;
         _logger = logger;
     }

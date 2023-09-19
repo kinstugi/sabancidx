@@ -4,8 +4,24 @@ using backend.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repository;
+public interface IProductRepository{
+    public Task<List<Product>> GetAllProducts(int userId = -1, int pageNumber = 1, int pageSize = 10);
+    public Task<Product> GetProductAsync(int productId);
+    public  Task<Product> CreateProduct(int userId, ProductDTO productDTO);
+    public Task<Product> UpdateProduct(int userId,int productId, ProductDTO productDTO);
+    public  Task<bool> DeleteProduct(int userId, int productId);
+    public Task<List<Product>> FilterProducts(
+        string name = "",
+        string code = "",
+        string brand = "",
+        double minPrice = double.NegativeInfinity,
+        double maxPrice = double.PositiveInfinity,
+        int page = 1,
+        int pageSize = 10 
+    );
+}
 
-public class ProductRepository{
+public class ProductRepository: IProductRepository{
     private readonly AppDbContext dbContext;
 
     public ProductRepository(AppDbContext appDbContext){

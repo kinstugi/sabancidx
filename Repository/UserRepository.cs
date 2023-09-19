@@ -4,8 +4,12 @@ using backend.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Repository;
+public interface IUserRepository{
+    public Task<bool> CreateUser(UserAuthDTO userAuth);
+    public Task<string> AuthenticateUser(UserAuthDTO userAuthDTO);
+}
 
-public class UserRepository{
+public class UserRepository: IUserRepository{
     private readonly AppDbContext dbContext;
     private readonly IConfiguration _configuration;
     public UserRepository(AppDbContext appDbContext, IConfiguration configuration){
