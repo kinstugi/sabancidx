@@ -29,6 +29,7 @@ Before running this project, ensure you have the following prerequisites install
    ```sh
    git clone https://github.com/kinstugi/sabancidx.git
    cd sabancidx
+   dotnet build
    ```
 2. Add migrations and push changes to database (in this case we are using sqlite database)
     ```
@@ -40,7 +41,6 @@ Before running this project, ensure you have the following prerequisites install
 
 3.  Build and run the project:
     ```sh
-    dotnet build
     dotnet run
     ```
 
