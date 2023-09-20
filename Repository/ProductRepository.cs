@@ -71,7 +71,7 @@ public class ProductRepository: IProductRepository{
     }
 
     public async Task<Product> UpdateProduct(int userId,int productId, ProductDTO productDTO){
-        var product = await dbContext.Products.Where(pd=> pd.ProductId == productId).FirstOrDefaultAsync();
+        var product = await dbContext.Products.Where(pd=> pd.ProductId == productId && pd.IsVisible).FirstOrDefaultAsync();
         if (product == null) throw new ProductNotFoundException();
         if (product.UserId != userId) throw new UnAuthorizedAccessException();
         product.Brand =  productDTO.Brand;
@@ -85,7 +85,7 @@ public class ProductRepository: IProductRepository{
     }
 
     public async Task<bool> DeleteProduct(int userId, int productId){
-        var product = await dbContext.Products.Where(pd=> pd.ProductId == productId).FirstOrDefaultAsync();
+        var product = await dbContext.Products.Where(pd=> pd.ProductId == productId && pd.IsVisible).FirstOrDefaultAsync();
         if (product == null) throw new ProductNotFoundException();
         if (product.UserId != userId) throw new UnAuthorizedAccessException();
         var res = product.DeleteProduct(userId);
