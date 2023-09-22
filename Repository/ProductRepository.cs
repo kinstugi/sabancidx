@@ -44,7 +44,7 @@ public class ProductRepository: IProductRepository{
     }
 
     public async Task<Product> GetProductAsync(int productId){
-        var product = await dbContext.Products.Where(pd => pd.ProductId == productId).FirstOrDefaultAsync();
+        var product = await dbContext.Products.Where(pd => pd.ProductId == productId && pd.IsVisible).FirstOrDefaultAsync();
         if (product == null) throw new ProductNotFoundException();
         return product;
     }
